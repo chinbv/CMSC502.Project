@@ -9,31 +9,38 @@
 using namespace std;
 
 // TODO take number of threads as program input
-const int num_threads = 9;
+const int num_threads = 1;
 mutex thread_mutexes[num_threads];
-thread threads[num_threads];
+std::thread the_threads[num_threads];
 
 int grids[num_threads][9][9];
 vector<int> thread_queue;
 sem_t thread_queue_semaphore;
 mutex thread_queue_mutex;
 
+mutex foundSolutionMutex;
+bool foundSolution;
 
-// call this function from each thread, using different starting sudoku values
+// Call this function from each thread, using different starting sudoku values
 void call_from_thread(int thread_num) {
 
     while(true) {
 
-        // wait until main thread gives this one permission to continue
+        // Wait until main thread gives this one permission to continue
         thread_mutexes[thread_num].lock();
 
-        // attempt a solve
+        // If solution has been found by another thread, return
+        // This has to be done immediately after the unlock, since the main will unlock all threads when solution is found
+        if(foundSolution) return;
+
+        printf("going to attempt a solve\n");
+
+        // Attempt a solve, return if successful
         if (SolveSudoku(grids[thread_num])) {
-            printf("Num: %d\n", thread_num);
             printGrid(grids[thread_num]);
-        } else {
-            //printf("No solution exists\n");
-            //printGrid(grids[thread_num]);
+            foundSolution = true;
+            foundSolutionMutex.unlock();
+            return;
         }
 
         // return the thread to the thread queue
@@ -43,13 +50,12 @@ void call_from_thread(int thread_num) {
         sem_post(&thread_queue_semaphore);
 
     }
-
-    return;
 }
 
 
-int main()
+int main(int argc, char** argv)
 {
+
     // TODO take this input from file
     int array[9][9] = {{3, 0, 6, 5, 0, 8, 4, 0, 0},
                        {5, 2, 0, 0, 0, 0, 0, 0, 0},
@@ -61,12 +67,14 @@ int main()
                        {0, 0, 0, 0, 0, 0, 0, 7, 4},
                        {0, 0, 5, 2, 0, 6, 3, 0, 0}};
 
+    foundSolutionMutex.lock();
+
     // Init grids and thread queue
     // Each thread needs a full copy of the initial sudoku board
     for(int i = 0; i < num_threads; i++) {
         thread_mutexes[i].lock();
         thread_queue.push_back(i);
-        threads[i] = thread(call_from_thread, i);
+        the_threads[i] = thread(call_from_thread, i);
         for(int j = 0; j < 9; j ++) {
             std::copy(std::begin(array[j]), std::end(array[j]), std::begin(grids[i][j]));
         }
@@ -100,10 +108,10 @@ int main()
     bool safe;
     thread t[num_threads];
     do {
-//        for(int i = 0; i < permuteCount; i++) {
-//            printf("%d ", first_values[i]);
-//        }
-//        printf("\n");
+
+        if(foundSolution) {
+            break;
+        }
 
         safe = true;
         // Check if the current permutation is safe
@@ -134,15 +142,15 @@ int main()
     } while(sudokuPermuteNext(first_values, permuteCount));
 
 
-    for(int i = 0; i < 9; i++) {
-        if(isSafe(grids[i], 0, 1, i+1)) {
-            grids[i][0][1] = i+1;
-            t[i] = thread(call_from_thread, i);
-        }
+    // Make sure we have found the solution before we start unlocking all the threads
+    foundSolutionMutex.lock();
+
+    for(int i = 0; i < num_threads; i++) {
+        thread_mutexes[i].unlock();
     }
 
     for(int i = 0; i < num_threads; i++){
-        if(t[i].joinable()) t[i].join();
+        if(the_threads[i].joinable()) the_threads[i].join();
     }
 
     return 0;
