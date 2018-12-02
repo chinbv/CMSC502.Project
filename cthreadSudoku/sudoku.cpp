@@ -1,4 +1,3 @@
-
 // A Backtracking program  in C++ to solve Sudoku problem
 #include <stdio.h>
 

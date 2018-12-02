@@ -1,5 +1,18 @@
-// A Backtracking program  in C++ to solve Sudoku problem 
-#include <stdio.h> 
+// A Backtracking program  in C++ to solve Sudoku problem
+#include <cstdio>
+#include <memory>
+#include <array>
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+#include <vector>
+#include <fstream>
+#include <sstream>
+#include <limits>
+#include <thread>
+#include <algorithm>
+#include <cstring>
+#include <string>
   
 // UNASSIGNED is used for empty cells in sudoku grid 
 #define UNASSIGNED 0 
@@ -16,7 +29,7 @@ bool isSafe(int grid[N][N], int row, int col, int num);
 /* Takes a partially filled-in grid and attempts to assign values to 
   all unassigned locations in such a way to meet the requirements 
   for Sudoku solution (non-duplication across rows, columns, and boxes) */
-bool SolveSudoku(int grid[N][N]) 
+bool SolveSudoku(int grid[N][N]) //n
 { 
     int row, col; 
   
@@ -25,7 +38,7 @@ bool SolveSudoku(int grid[N][N])
        return true; // success! 
   
     // consider digits 1 to 9 
-    for (int num = 1; num <= 9; num++) 
+    for (int num = 1; num <= 9; num++)
     { 
         // if looks promising 
         if (isSafe(grid, row, col, num)) 
@@ -48,7 +61,7 @@ bool SolveSudoku(int grid[N][N])
    found, the reference parameters row, col will be set the location 
    that is unassigned, and true is returned. If no unassigned entries 
    remain, false is returned. */
-bool FindUnassignedLocation(int grid[N][N], int &row, int &col) 
+bool FindUnassignedLocation(int grid[N][N], int &row, int &col) //n^2
 { 
     for (row = 0; row < N; row++) 
         for (col = 0; col < N; col++) 
@@ -59,7 +72,7 @@ bool FindUnassignedLocation(int grid[N][N], int &row, int &col)
   
 /* Returns a boolean which indicates whether an assigned entry 
    in the specified row matches the given number. */
-bool UsedInRow(int grid[N][N], int row, int num) 
+bool UsedInRow(int grid[N][N], int row, int num)  //n
 { 
     for (int col = 0; col < N; col++) 
         if (grid[row][col] == num) 
@@ -69,7 +82,7 @@ bool UsedInRow(int grid[N][N], int row, int num)
   
 /* Returns a boolean which indicates whether an assigned entry 
    in the specified column matches the given number. */
-bool UsedInCol(int grid[N][N], int col, int num) 
+bool UsedInCol(int grid[N][N], int col, int num) //n
 { 
     for (int row = 0; row < N; row++) 
         if (grid[row][col] == num) 
@@ -79,7 +92,7 @@ bool UsedInCol(int grid[N][N], int col, int num)
   
 /* Returns a boolean which indicates whether an assigned entry 
    within the specified 3x3 box matches the given number. */
-bool UsedInBox(int grid[N][N], int boxStartRow, int boxStartCol, int num) 
+bool UsedInBox(int grid[N][N], int boxStartRow, int boxStartCol, int num) //n^2
 { 
     for (int row = 0; row < 3; row++) 
         for (int col = 0; col < 3; col++) 
@@ -90,7 +103,7 @@ bool UsedInBox(int grid[N][N], int boxStartRow, int boxStartCol, int num)
   
 /* Returns a boolean which indicates whether it will be legal to assign 
    num to the given row,col location. */
-bool isSafe(int grid[N][N], int row, int col, int num) 
+bool isSafe(int grid[N][N], int row, int col, int num) //constant
 { 
     /* Check if 'num' is not already placed in current row, 
        current column and current 3x3 box */
@@ -100,7 +113,7 @@ bool isSafe(int grid[N][N], int row, int col, int num)
 } 
   
 /* A utility function to print grid  */
-void printGrid(int grid[N][N]) 
+void printGrid(int grid[N][N]) //Doesnt really matter because its just a print...
 { 
     for (int row = 0; row < N; row++) 
     { 
@@ -111,8 +124,11 @@ void printGrid(int grid[N][N])
 } 
   
 /* Driver Program to test above functions */
-int main() 
-{ 
+int main() //Doesnt matter...
+{
+    struct timespec time_start, time_end;
+    clock_gettime(CLOCK_MONOTONIC_RAW, &time_start);
+    
     // 0 means unassigned cells 
     int grid[N][N] = {{3, 0, 6, 5, 0, 8, 4, 0, 0}, 
                       {5, 2, 0, 0, 0, 0, 0, 0, 0}, 
@@ -126,7 +142,13 @@ int main()
     if (SolveSudoku(grid) == true) 
           printGrid(grid); 
     else
-         printf("No solution exists"); 
+         printf("No solution exists");
+    
+    //End clock
+    clock_gettime(CLOCK_MONOTONIC_RAW, &time_end);
+    uint64_t time_diff = (1000000000L * (time_end.tv_sec - time_start.tv_sec) + time_end.tv_nsec - time_start.tv_nsec) / 1e6;
+    
+    printf("Total Execution Time: %2llu\n", time_diff);
   
     return 0; 
 } 

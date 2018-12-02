@@ -64,8 +64,8 @@ void const_prop(int array[][9],int x,int y, int inf[9][10], int index){
 			}
 		}
 	}
-
 }
+
 //this function checks if there is any value has been found in this grid.
 void is_it_found(int inf[9][10], int a[3], int rank){
 	int i,j;//counters for for loops
@@ -100,8 +100,10 @@ void is_it_found(int inf[9][10], int a[3], int rank){
 		}
 	}
 }
+
 //main start
 int main(int argc, char** argv) {
+    
 	int my_rank;   /* My process rank           */
 	int p;         /* The number of processes   */
 	int	source;    /* Process sending integral  */
@@ -112,10 +114,13 @@ int main(int argc, char** argv) {
 	int info[9][10];//information array about grid.
 	int i, j, a, b, k,m,c,d;//numbers used for different purposes, mostly counters.
 	int displacements[9][9];//Used for indexed data type.
-	int block_lenghts[9][9];//Used for indexed data type.
+	int block_lengths[9][9];//Used for indexed data type.
+    
 	MPI_Datatype indexed_mpi_t[9];//Indexed data type which is being used for sending different data to different processes.
+    
 	int found_value[3];//array for representing the value has been found. First 2 elements represent x and y index accordingly.Third one is for the value.
 	int number_of_found_elements;//counter for stopping while loops.
+    
 	//initializing information array
 	//This array represents grids' elements respectively. Each row represents each element.
 	for(i = 0; i < 9; i++){
@@ -126,6 +131,7 @@ int main(int argc, char** argv) {
 				info[i][j] = 1; //initally all numbers all available for this place.
 			}
 	}
+    
 	MPI_Status  status;
 	/* Let the system do what it needs to start up MPI */
 	MPI_Init(&argc, &argv);
@@ -144,9 +150,20 @@ int main(int argc, char** argv) {
 			a = 6;
 		//setting block lenghts.
 		for(j = 0; j < 9; j++)
-			block_lenghts[i][j] = 3;
+			block_lengths[i][j] = 3;
 		for(j = a; j < a+3; j++)
-			block_lenghts[i][j] = 9;
+			block_lengths[i][j] = 9;
+        
+        /* Crappy print out of the block_lengths matrix
+        if(my_rank - 1 ==  0)
+        for(int counterOne = 0; counterOne < 9; ++counterOne) {
+            for(int counterTwo = 0; counterTwo < 9; ++counterTwo) {
+                printf("block_lengths[%d][%d]\n", block_lengths[counterOne][counterTwo], block_lengths[counterOne][counterTwo]);
+            }
+        }
+        printf("\n");
+         */
+        
 		//initalizing b variable. This variable sets the displacements for different grids.
 		if(i % 3 == 0)
 			b = 0;
@@ -170,7 +187,7 @@ int main(int argc, char** argv) {
 	}
 	//indexed method for sending array to the slaves.
 	for(i = 0; i < 9; i++){
-		MPI_Type_indexed(9,block_lenghts[i],displacements[i], MPI_INT, &indexed_mpi_t[i]);
+		MPI_Type_indexed(9,block_lengths[i],displacements[i], MPI_INT, &indexed_mpi_t[i]);
 		MPI_Type_commit(&indexed_mpi_t[i]);
 	}
 	//MASTER PROCESS
