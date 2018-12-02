@@ -5,11 +5,12 @@
 #include <vector>
 #include <mutex>
 #include <semaphore.h>
+#include <cmath>
 
 using namespace std;
 
 // TODO take number of threads as program input
-const int num_threads = 1;
+const int num_threads = 2;
 mutex thread_mutexes[num_threads];
 std::thread the_threads[num_threads];
 
@@ -32,8 +33,6 @@ void call_from_thread(int thread_num) {
         // If solution has been found by another thread, return
         // This has to be done immediately after the unlock, since the main will unlock all threads when solution is found
         if(foundSolution) return;
-
-        printf("going to attempt a solve\n");
 
         // Attempt a solve, return if successful
         if (SolveSudoku(grids[thread_num])) {
@@ -81,7 +80,7 @@ int main(int argc, char** argv)
     }
 
     // Init permutation number (permutes the first few values of the sudoku puzzle)
-    int num_values_to_permute = 3;
+    int num_values_to_permute = ceil(sqrt(num_threads));
     int first_values[num_values_to_permute] = {1, 1, 1};
     int zeroIndex[3][2];
 
@@ -131,7 +130,7 @@ int main(int argc, char** argv)
             thread_queue_mutex.unlock();
 
             // Assign the current permutation
-            for(int i = 0; i < 3; i++) {
+            for(int i = 0; i < permuteCount; i++) {
                 grids[availableThread] [zeroIndex[i][0]] [zeroIndex[i][1]] = first_values[i];
             }
 
