@@ -10,11 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d5c1aa0-5392-408f-8c93-f2156ef13b10" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/MPISudoku/main" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sequentialSudoku/a.out" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MPISudoku/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MPISudoku/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cthreadSudoku/sudoku.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/cthreadSudoku/sudoku.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sequentialSudoku/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sequentialSudoku/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MPISudoku/sudoku.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MPISudoku/sudoku.cpp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,8 +40,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MPISudoku/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1454">
-              <caret line="323" lean-forward="true" selection-start-line="323" selection-end-line="323" />
+            <state relative-caret-position="540">
+              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
             </state>
           </provider>
         </entry>
@@ -166,12 +163,12 @@
       <option name="presentableId" value="Default" />
       <updated>1542660403167</updated>
       <workItem from="1542660404448" duration="4640000" />
-      <workItem from="1543778480800" duration="10203000" />
+      <workItem from="1543778480800" duration="10305000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14843000" />
+    <option name="totallyTimeSpent" value="14945000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="134" y="35" width="3706" height="2125" extended-state="6" />
@@ -249,8 +246,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MPISudoku/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1454">
-          <caret line="323" lean-forward="true" selection-start-line="323" selection-end-line="323" />
+        <state relative-caret-position="540">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
         </state>
       </provider>
     </entry>
