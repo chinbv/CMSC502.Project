@@ -81,7 +81,10 @@ int main(int argc, char** argv)
 
     // Init permutation number (permutes the first few values of the sudoku puzzle)
     int num_values_to_permute = ceil(sqrt(num_threads));
-    int first_values[num_values_to_permute] = {1, 1, 1};
+    int first_values[num_values_to_permute];
+    for(int i = 0; i < num_values_to_permute; i++) {
+        first_values[i] = 1;
+    }
     int zeroIndex[3][2];
 
 
