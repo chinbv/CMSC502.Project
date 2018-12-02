@@ -1,4 +1,8 @@
-// A Backtracking program  in C++ to solve Sudoku problem
+/* a program to solve sudoku problems
+ * uses backtracking algorithm
+ * dynamic load balancing between threads
+ */
+
 #include <stdio.h>
 
 // UNASSIGNED is used for empty cells in sudoku grid
