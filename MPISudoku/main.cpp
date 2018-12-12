@@ -101,19 +101,46 @@ void runMaster(int nthreads, int rank) {
         if(permuteCount >= num_values_to_permute) break;
     }
 
+    int zeroIndex1D[permuteCount*2];
+    for(int i = 0; i < permuteCount; i++) {
+        zeroIndex1D[i*2] = zeroIndex[i][0];
+        zeroIndex1D[i*2+1] = zeroIndex[i][1];
+    }
+
+    // Send permute count to all slaves
+    for(int i = 1; i < nthreads; i++) {
+        MPI_Send(&permuteCount, 1, MPI_INT, i, 0, MPI_COMM_WORLD);
+    }
+    // Send zeroIndexes to all slaves
+    for(int i = 1; i < nthreads; i++) {
+        MPI_Send(&zeroIndex1D, permuteCount*2, MPI_INT, i, 0, MPI_COMM_WORLD);
+    }
+
     // Pick a thread from queue, run it on next iteration
     bool safe;
     do {
         safe = true;
 
+        // Add all permuted values into the sudoku
+        for(int i = 0; i < permuteCount; i++) {
+            sudokuArray[zeroIndex[i][0]][zeroIndex[i][1]] = first_values[i];
+        }
+
         // Check if the current permutation is safe
         for(int i = 0; i < permuteCount; i++) {
+            sudokuArray[zeroIndex[i][0]][zeroIndex[i][1]] = 0;
             if(!isSafe(sudokuArray, zeroIndex[i][0], zeroIndex[i][1], first_values[i])) {
                 safe = false;
                 break;
             }
+            sudokuArray[zeroIndex[i][0]][zeroIndex[i][1]] = first_values[i];
         }
         if(safe) {
+
+//            for(int i = 0; i < permuteCount; i++) {
+//                printf("%d, ", first_values[i]);
+//            }
+//            printf("\n");
 
             // wait for process to be available, then securely access the process queue
             sem_wait(&processQueueSemaphore);
@@ -124,41 +151,58 @@ void runMaster(int nthreads, int rank) {
 
             // Assign the current permutation
             // TODO do some permutation sending here
-            int number = 0;
-            MPI_Send(&number, 1, MPI_INT, availableProcess, 0, MPI_COMM_WORLD);
+            MPI_Send(&first_values, permuteCount, MPI_INT, availableProcess, 0, MPI_COMM_WORLD);
 
         }
 
     } while(sudokuPermuteNext(first_values, permuteCount));
 
-    printf("Hi from master\n");
+    //printf("Hi from master\n");
 
-    int number = -1;
+    int numbers[permuteCount];
+    numbers[0] = -1;
+
     for(int i = 1; i < nthreads; i++) {
-        MPI_Send(&number, 1, MPI_INT, i, 0, MPI_COMM_WORLD);
+        MPI_Send(&numbers, permuteCount, MPI_INT, i, 0, MPI_COMM_WORLD);
     }
 
-    printf("I want to join\n");
+    //printf("I want to join\n");
 
     threadQueueManagement.join();
 }
 
 void runSlave(int nthreads, int rank) {
 
-    int number;
+    // get permuteCount
+    int permuteCount;
+    MPI_Recv(&permuteCount, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    int zeroIndex[permuteCount];
+    MPI_Recv(&zeroIndex, permuteCount*2, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
+    int first_values[permuteCount];
     while(true) {
-        cout << "something" << endl;
-        MPI_Recv(&number, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        if(number == -1) {
-            number = -1;
+        //cout << "something" << endl;
+        MPI_Recv(&first_values, permuteCount, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        if(first_values[0] == -1) {
+            int number = -1;
             MPI_Send(&number, 1, MPI_INT, 0, 7, MPI_COMM_WORLD);
             break;
         }
+
+        // Fill in sudoku with first_values
+        for(int i = 0; i < permuteCount; i++) {
+            sudokuArray[zeroIndex[i*2]][zeroIndex[i*2+1]] = first_values[i];
+        }
+
+        // Attempt a solve, return if successful
+        if (SolveSudoku(sudokuArray)) {
+            printGrid(sudokuArray);
+        }
+
         MPI_Send(&rank, 1, MPI_INT, 0, 7, MPI_COMM_WORLD);
     }
 
-    printf("Slave done, rank %d\n", rank);
-
+    //printf("Slave done, rank %d\n", rank);
 
 }
 
@@ -178,7 +222,6 @@ int main(int argc, char** argv) {
      * 3) sub processes should process permutations, if find
      */
 
-    printf("my rank is %d\n", rank);
 
     if(rank == 0) {
         runMaster(nthreads, rank);
@@ -186,7 +229,7 @@ int main(int argc, char** argv) {
         runSlave(nthreads, rank);
     }
 
-    printf("DONE%d\n", rank);
+    //printf("DONE%d\n", rank);
 
     MPI_Finalize();
 
