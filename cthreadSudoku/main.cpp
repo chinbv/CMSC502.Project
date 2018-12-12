@@ -10,7 +10,7 @@
 using namespace std;
 
 // TODO take number of threads as program input
-const int num_threads = 2;
+const int num_threads = 10;
 mutex thread_mutexes[num_threads];
 std::thread the_threads[num_threads];
 
