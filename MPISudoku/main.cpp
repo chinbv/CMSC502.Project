@@ -59,6 +59,65 @@ void manageQueues() {
 
 }
 
+void printArray(int array[], int size) {
+    for(int i = 0; i < size; i++) {
+        cout << array[i] << ", ";
+    }
+    cout << endl;
+}
+
+bool permuteSudoku(int grid[N][N], int first_values[], int permuteCount, int zeroIndex[][2], int someCount) {
+
+    int row = 0, col = 0;
+
+    //cout << "someCount " << someCount << endl;
+
+    // If there is no unassigned location, we are done
+    if(!FindUnassignedLocation(grid, row, col)) {
+        cout << "something bad probably just happened" << endl;
+        return true; // success!
+    }
+
+    //cout << "row " << row << " col " << col << endl;
+
+    // consider digits 1 to 9
+    for (int num = 1; num <= 9; num++)
+    {
+        // if looks promising
+        if (isSafe(grid, row, col, num))
+        {
+            // make tentative assignment
+            grid[row][col] = num;
+
+            // assign the corresponding first_value
+            first_values[someCount] = num;
+
+            // if we are at the last zeroIndex, go ahead and send, and return
+            if (row == zeroIndex[permuteCount-1][0] && col == zeroIndex[permuteCount-1][1]) {
+                // wait for process to be available, then securely access the process queue
+                sem_wait(&processQueueSemaphore);
+                processQueueMutex.lock();
+                int availableProcess = processQueue.back();
+                processQueue.pop_back();
+                processQueueMutex.unlock();
+                //cout << permuteCount << endl;
+
+                cout << " send to " << availableProcess << " ";
+                printArray(first_values, permuteCount);
+
+                MPI_Send(first_values, permuteCount, MPI_INT, availableProcess, 17, MPI_COMM_WORLD);
+
+            } else {
+                permuteSudoku(grid, std::ref(first_values), permuteCount, zeroIndex, someCount+1);
+            }
+        }
+        grid[row][col] = UNASSIGNED;
+
+    }
+    return false; // this triggers backtracking
+
+}
+
 void runMaster(int nthreads, int rank) {
 
     /*
@@ -82,7 +141,7 @@ void runMaster(int nthreads, int rank) {
 
 
     // Init permutation number (permutes the first few values of the sudoku puzzle)
-    int num_values_to_permute = ceil(sqrt(nthreads));
+    int num_values_to_permute = ceil(5*sqrt(nthreads));
     int first_values[num_values_to_permute];
     for(int i = 0; i < num_values_to_permute; i++) {
         first_values[i] = 1;
@@ -103,11 +162,15 @@ void runMaster(int nthreads, int rank) {
         if(permuteCount >= num_values_to_permute) break;
     }
 
+    cout << "calculated permute count " << permuteCount << endl;
+
     int zeroIndex1D[permuteCount*2];
     for(int i = 0; i < permuteCount; i++) {
         zeroIndex1D[i*2] = zeroIndex[i][0];
         zeroIndex1D[i*2+1] = zeroIndex[i][1];
     }
+
+    cout << "created 1D zeroIndex " << endl;
 
     // Send permute count to all slaves
     for(int i = 1; i < nthreads; i++) {
@@ -118,46 +181,52 @@ void runMaster(int nthreads, int rank) {
         MPI_Send(&zeroIndex1D, permuteCount*2, MPI_INT, i, 0, MPI_COMM_WORLD);
     }
 
+    cout << "did sends " << endl;
+
     // Pick a thread from queue, run it on next iteration
     bool safe;
-    do {
-        safe = true;
+    permuteSudoku(sudokuArray, first_values, permuteCount, zeroIndex, 0);
 
-        // Add all permuted values into the sudoku
-        for(int i = 0; i < permuteCount; i++) {
-            sudokuArray[zeroIndex[i][0]][zeroIndex[i][1]] = first_values[i];
-        }
-
-        // Check if the current permutation is safe
-        for(int i = 0; i < permuteCount; i++) {
-            sudokuArray[zeroIndex[i][0]][zeroIndex[i][1]] = 0;
-            if(!isSafe(sudokuArray, zeroIndex[i][0], zeroIndex[i][1], first_values[i])) {
-                safe = false;
-                break;
-            }
-            sudokuArray[zeroIndex[i][0]][zeroIndex[i][1]] = first_values[i];
-        }
-        if(safe) {
-
-//            for(int i = 0; i < permuteCount; i++) {
-//                printf("%d, ", first_values[i]);
-//            }
-//            printf("\n");
-
-            // wait for process to be available, then securely access the process queue
-            sem_wait(&processQueueSemaphore);
-            processQueueMutex.lock();
-            int availableProcess = processQueue.back();
-            processQueue.pop_back();
-            processQueueMutex.unlock();
-
-            // Assign the current permutation
-            // TODO do some permutation sending here
-            MPI_Send(&first_values, permuteCount, MPI_INT, availableProcess, 0, MPI_COMM_WORLD);
-
-        }
-
-    } while(sudokuPermuteNext(first_values, permuteCount));
+//    do {
+//        permuteSudoku(sudokuArray, first_values, permuteCount, zeroIndex, 0);
+//
+////        safe = true;
+////
+////        // Add all permuted values into the sudoku
+////        for(int i = 0; i < permuteCount; i++) {
+////            sudokuArray[zeroIndex[i][0]][zeroIndex[i][1]] = first_values[i];
+////        }
+////
+////        // Check if the current permutation is safe
+////        for(int i = 0; i < permuteCount; i++) {
+////            sudokuArray[zeroIndex[i][0]][zeroIndex[i][1]] = 0;
+////            if(!isSafe(sudokuArray, zeroIndex[i][0], zeroIndex[i][1], first_values[i])) {
+////                safe = false;
+////                break;
+////            }
+////            sudokuArray[zeroIndex[i][0]][zeroIndex[i][1]] = first_values[i];
+////        }
+////        if(safe) {
+////
+////            for(int i = 0; i < permuteCount; i++) {
+////                printf("%d, ", first_values[i]);
+////            }
+////            printf("\n");
+////
+////            // wait for process to be available, then securely access the process queue
+////            sem_wait(&processQueueSemaphore);
+////            processQueueMutex.lock();
+////            int availableProcess = processQueue.back();
+////            processQueue.pop_back();
+////            processQueueMutex.unlock();
+////
+////            // Assign the current permutation
+////            // TODO do some permutation sending here
+////            MPI_Send(&first_values, permuteCount, MPI_INT, availableProcess, 0, MPI_COMM_WORLD);
+////
+////        }
+//
+//    } while(sudokuPermuteNext(first_values, permuteCount));
 
     //printf("Hi from master\n");
 
@@ -165,7 +234,7 @@ void runMaster(int nthreads, int rank) {
     numbers[0] = -1;
 
     for(int i = 1; i < nthreads; i++) {
-        MPI_Send(&numbers, permuteCount, MPI_INT, i, 0, MPI_COMM_WORLD);
+        MPI_Send(numbers, permuteCount, MPI_INT, i, 17, MPI_COMM_WORLD);
     }
 
     //printf("I want to join\n");
@@ -182,10 +251,11 @@ void runSlave(int nthreads, int rank) {
     int zeroIndex[permuteCount];
     MPI_Recv(&zeroIndex, permuteCount*2, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
+
     int first_values[permuteCount];
     while(true) {
         //cout << "something" << endl;
-        MPI_Recv(&first_values, permuteCount, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Recv(&first_values, permuteCount, MPI_INT, 0, 17, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         if(first_values[0] == -1) {
             int number = -1;
             MPI_Send(&number, 1, MPI_INT, 0, 7, MPI_COMM_WORLD);
