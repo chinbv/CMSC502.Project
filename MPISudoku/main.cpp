@@ -8,6 +8,8 @@
 #include <mpi.h>
 #include <unistd.h>
 #include <iostream>
+#include <chrono>  // for high_resolution_clock
+
 
 using namespace std;
 
@@ -169,6 +171,7 @@ void runMaster(int nthreads, int rank) {
     //printf("I want to join\n");
 
     threadQueueManagement.join();
+
 }
 
 void runSlave(int nthreads, int rank) {
@@ -222,6 +225,10 @@ int main(int argc, char** argv) {
      * 3) sub processes should process permutations, if find
      */
 
+    MPI_Barrier( MPI_COMM_WORLD );
+
+    // Record start time
+    auto start = std::chrono::high_resolution_clock::now();
 
     if(rank == 0) {
         runMaster(nthreads, rank);
@@ -230,6 +237,15 @@ int main(int argc, char** argv) {
     }
 
     //printf("DONE%d\n", rank);
+
+    MPI_Barrier( MPI_COMM_WORLD );
+
+    // Record end time
+    if(rank == 0) {
+        auto finish = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> elapsed = finish - start;
+        std::cout << "Elapsed time: " << elapsed.count() << " s\n";
+    }
 
     MPI_Finalize();
 
