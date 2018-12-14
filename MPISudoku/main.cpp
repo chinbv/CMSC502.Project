@@ -1,5 +1,5 @@
-#include "../cthreadSudoku/sudoku.cpp"
-#include "../cthreadSudoku/sudokuPermute.cpp"
+#include "sudoku.cpp"
+#include "sudokuPermute.cpp"
 #include <thread>
 #include <vector>
 #include <mutex>
@@ -22,26 +22,29 @@
 using namespace std;
 
 // TODO take this input from file
-int sudokuArray[9][9] = {{3, 0, 6, 5, 0, 8, 4, 0, 0},
-                         {5, 2, 0, 0, 0, 0, 0, 0, 0},
-                         {0, 8, 7, 0, 0, 0, 0, 3, 1},
-                         {0, 0, 3, 0, 1, 0, 0, 8, 0},
-                         {9, 0, 0, 8, 6, 3, 0, 0, 5},
-                         {0, 5, 0, 0, 9, 0, 6, 0, 0},
-                         {1, 3, 0, 0, 0, 0, 2, 5, 0},
-                         {0, 0, 0, 0, 0, 0, 0, 7, 4},
-                         {0, 0, 5, 2, 0, 6, 3, 0, 0}};
+int sudokuArray[9][9] = {
+        {1,9,0,7,4,0,8,0,2},
+        {0,0,0,0,8,0,6,1,0},
+        {6,0,0,1,0,2,0,5,0},
+        {0,0,0,0,0,9,0,8,6},
+        {9,0,0,4,0,8,0,0,1},
+        {4,8,0,3,0,0,0,0,0},
+        {0,4,0,6,0,5,0,0,3},
+        {0,7,9,0,3,0,0,0,0},
+        {5,0,3,0,1,7,0,4,8}
+};
 
-int sudokuArray2[9][9] = {{3, 0, 6, 5, 0, 8, 4, 0, 0},
-                         {5, 2, 0, 0, 0, 0, 0, 0, 0},
-                         {0, 8, 7, 0, 0, 0, 0, 3, 1},
-                         {0, 0, 3, 0, 1, 0, 0, 8, 0},
-                         {9, 0, 0, 8, 6, 3, 0, 0, 5},
-                         {0, 5, 0, 0, 9, 0, 6, 0, 0},
-                         {1, 3, 0, 0, 0, 0, 2, 5, 0},
-                         {0, 0, 0, 0, 0, 0, 0, 7, 4},
-                         {0, 0, 5, 2, 0, 6, 3, 0, 0}};
-
+int sudokuArray2[9][9] = {
+        {1,9,0,7,4,0,8,0,2},
+        {0,0,0,0,8,0,6,1,0},
+        {6,0,0,1,0,2,0,5,0},
+        {0,0,0,0,0,9,0,8,6},
+        {9,0,0,4,0,8,0,0,1},
+        {4,8,0,3,0,0,0,0,0},
+        {0,4,0,6,0,5,0,0,3},
+        {0,7,9,0,3,0,0,0,0},
+        {5,0,3,0,1,7,0,4,8}
+};
 
 vector<int> processQueue;
 mutex processQueueMutex;
@@ -140,7 +143,7 @@ void runMaster(int nthreads, int rank) {
 
 
     // Init permutation number (permutes the first few values of the sudoku puzzle)
-    int num_values_to_permute = min((int) ceil(5*sqrt(nthreads)), 10);
+    int num_values_to_permute = min((int) ceil(2*sqrt(nthreads)), 10);
     int first_values[num_values_to_permute];
     for(int i = 0; i < num_values_to_permute; i++) {
         first_values[i] = 1;
