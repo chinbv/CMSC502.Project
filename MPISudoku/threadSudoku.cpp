@@ -74,7 +74,7 @@ int something(int array[9][9])
     }
 
     // Init permutation number (permutes the first few values of the sudoku puzzle)
-    int num_values_to_permute = ceil(sqrt(num_threads));
+    int num_values_to_permute = min((int) ceil(sqrt(num_threads)), 5);
     int first_values[num_values_to_permute];
     for(int i = 0; i < num_values_to_permute; i++) {
         first_values[i] = 1;

@@ -10,12 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d5c1aa0-5392-408f-8c93-f2156ef13b10" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/MPISudoku/threadSudoku.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MPISudoku/threadSudokuClass.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MPISudoku/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/MPISudoku/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MPISudoku/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MPISudoku/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MPISudoku/program.exe" beforeDir="false" afterPath="$PROJECT_DIR$/MPISudoku/program.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MPISudoku/threadSudoku.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MPISudoku/threadSudoku.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MPISudoku/threadSudokuClass.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MPISudoku/threadSudokuClass.cpp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,8 +26,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MPISudoku/threadSudoku.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1008">
-              <caret line="61" column="25" selection-start-line="61" selection-start-column="25" selection-end-line="61" selection-end-column="25" />
+            <state relative-caret-position="1156">
+              <caret line="76" column="42" selection-start-line="76" selection-start-column="42" selection-end-line="76" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -37,8 +35,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MPISudoku/threadSudokuClass.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3718">
-              <caret line="165" column="31" selection-start-line="165" selection-start-column="31" selection-end-line="165" selection-end-column="31" />
+            <state relative-caret-position="543">
+              <caret line="85" column="64" selection-start-line="85" selection-start-column="64" selection-end-line="85" selection-end-column="64" />
             </state>
           </provider>
         </entry>
@@ -46,8 +44,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MPISudoku/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="874">
-              <caret line="319" column="64" selection-start-line="319" selection-start-column="64" selection-end-line="319" selection-end-column="64" />
+            <state relative-caret-position="802">
+              <caret line="142" column="42" selection-start-line="142" selection-start-column="42" selection-end-line="142" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -88,7 +86,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>issafe</find>
       <find>something</find>
       <find>zeroInde</find>
       <find>MPI_SEND</find>
@@ -100,9 +97,6 @@
       <find>permuteSud</find>
       <find>received</find>
       <find>mpi_send</find>
-      <find>cout</find>
-      <find>printf</find>
-      <find>print</find>
       <find>zeroIndex</find>
       <find>foundSolutionMutex</find>
       <find>semaphore</find>
@@ -118,6 +112,10 @@
       <find>process</find>
       <find>call_from</find>
       <find>before</find>
+      <find>printf</find>
+      <find>print</find>
+      <find>cout</find>
+      <find>ceil</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -216,12 +214,12 @@
       <workItem from="1544543033355" duration="3882000" />
       <workItem from="1544575606982" duration="8814000" />
       <workItem from="1544676623093" duration="1547000" />
-      <workItem from="1544730064996" duration="23449000" />
+      <workItem from="1544730064996" duration="24855000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53106000" />
+    <option name="totallyTimeSpent" value="54512000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="134" y="35" width="3706" height="2125" extended-state="6" />
@@ -298,22 +296,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MPISudoku/threadSudokuClass.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3718">
-          <caret line="165" column="31" selection-start-line="165" selection-start-column="31" selection-end-line="165" selection-end-column="31" />
+        <state relative-caret-position="543">
+          <caret line="85" column="64" selection-start-line="85" selection-start-column="64" selection-end-line="85" selection-end-column="64" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MPISudoku/threadSudoku.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1008">
-          <caret line="61" column="25" selection-start-line="61" selection-start-column="25" selection-end-line="61" selection-end-column="25" />
+        <state relative-caret-position="1156">
+          <caret line="76" column="42" selection-start-line="76" selection-start-column="42" selection-end-line="76" selection-end-column="42" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MPISudoku/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="874">
-          <caret line="319" column="64" selection-start-line="319" selection-start-column="64" selection-end-line="319" selection-end-column="64" />
+        <state relative-caret-position="802">
+          <caret line="142" column="42" selection-start-line="142" selection-start-column="42" selection-end-line="142" selection-end-column="42" />
         </state>
       </provider>
     </entry>
