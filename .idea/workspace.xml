@@ -10,10 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d5c1aa0-5392-408f-8c93-f2156ef13b10" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/MPISudoku/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MPISudoku/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MPISudoku/program.exe" beforeDir="false" afterPath="$PROJECT_DIR$/MPISudoku/program.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MPISudoku/threadSudoku.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MPISudoku/threadSudoku.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MPISudoku/threadSudokuClass.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MPISudoku/threadSudokuClass.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cthreadSudoku/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/cthreadSudoku/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cthreadSudoku/program.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cthreadSudoku/program.exe" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,8 +25,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MPISudoku/threadSudoku.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1156">
-              <caret line="76" column="42" selection-start-line="76" selection-start-column="42" selection-end-line="76" selection-end-column="42" />
+            <state relative-caret-position="4330">
+              <caret line="148" column="5" lean-forward="true" selection-start-line="148" selection-start-column="5" selection-end-line="148" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cthreadSudoku/main.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1374">
+              <caret line="163" column="50" selection-start-line="163" selection-start-column="50" selection-end-line="163" selection-end-column="50" />
             </state>
           </provider>
         </entry>
@@ -41,11 +49,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MPISudoku/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="802">
-              <caret line="142" column="42" selection-start-line="142" selection-start-column="42" selection-end-line="142" selection-end-column="42" />
+            <state relative-caret-position="982">
+              <caret line="252" column="22" selection-start-line="252" selection-start-column="22" selection-end-line="252" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -86,7 +94,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>something</find>
       <find>zeroInde</find>
       <find>MPI_SEND</find>
       <find>available</find>
@@ -115,6 +122,7 @@
       <find>printf</find>
       <find>print</find>
       <find>cout</find>
+      <find>chrono</find>
       <find>ceil</find>
     </findStrings>
   </component>
@@ -129,10 +137,10 @@
         <option value="$PROJECT_DIR$/cthreadSudoku/sudoku.cpp" />
         <option value="$PROJECT_DIR$/MPISudoku/sudoku.cpp" />
         <option value="$PROJECT_DIR$/MPISudoku/Makefile" />
-        <option value="$PROJECT_DIR$/cthreadSudoku/main.cpp" />
         <option value="$PROJECT_DIR$/MPISudoku/threadSudokuClass.cpp" />
-        <option value="$PROJECT_DIR$/MPISudoku/threadSudoku.cpp" />
         <option value="$PROJECT_DIR$/MPISudoku/main.cpp" />
+        <option value="$PROJECT_DIR$/MPISudoku/threadSudoku.cpp" />
+        <option value="$PROJECT_DIR$/cthreadSudoku/main.cpp" />
       </list>
     </option>
   </component>
@@ -214,12 +222,12 @@
       <workItem from="1544543033355" duration="3882000" />
       <workItem from="1544575606982" duration="8814000" />
       <workItem from="1544676623093" duration="1547000" />
-      <workItem from="1544730064996" duration="24855000" />
+      <workItem from="1544730064996" duration="25783000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54512000" />
+    <option name="totallyTimeSpent" value="55440000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="134" y="35" width="3706" height="2125" extended-state="6" />
@@ -287,13 +295,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cthreadSudoku/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="2" column="28" lean-forward="true" selection-start-line="2" selection-start-column="28" selection-end-line="2" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MPISudoku/threadSudokuClass.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="543">
@@ -301,17 +302,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MPISudoku/threadSudoku.cpp">
+    <entry file="file://$PROJECT_DIR$/MPISudoku/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1156">
-          <caret line="76" column="42" selection-start-line="76" selection-start-column="42" selection-end-line="76" selection-end-column="42" />
+        <state relative-caret-position="982">
+          <caret line="252" column="22" selection-start-line="252" selection-start-column="22" selection-end-line="252" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MPISudoku/main.cpp">
+    <entry file="file://$PROJECT_DIR$/MPISudoku/threadSudoku.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="802">
-          <caret line="142" column="42" selection-start-line="142" selection-start-column="42" selection-end-line="142" selection-end-column="42" />
+        <state relative-caret-position="4330">
+          <caret line="148" column="5" lean-forward="true" selection-start-line="148" selection-start-column="5" selection-end-line="148" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cthreadSudoku/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1374">
+          <caret line="163" column="50" selection-start-line="163" selection-start-column="50" selection-end-line="163" selection-end-column="50" />
         </state>
       </provider>
     </entry>

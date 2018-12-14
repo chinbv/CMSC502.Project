@@ -6,6 +6,7 @@
 #include <mutex>
 #include <semaphore.h>
 #include <cmath>
+#include <chrono>
 
 using namespace std;
 
@@ -54,6 +55,9 @@ void call_from_thread(int thread_num) {
 
 int main(int argc, char** argv)
 {
+
+    auto start = std::chrono::high_resolution_clock::now();
+
 
     // TODO take this input from file
     int array[9][9] = {{3, 0, 6, 5, 0, 8, 4, 0, 0},
@@ -154,6 +158,10 @@ int main(int argc, char** argv)
     for(int i = 0; i < num_threads; i++){
         if(the_threads[i].joinable()) the_threads[i].join();
     }
+
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = finish - start;
+    printf("Elapsed time: %fs\n", elapsed.count());
 
     return 0;
 }
