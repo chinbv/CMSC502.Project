@@ -1,4 +1,4 @@
-program.exe : main.cpp sudoku.cpp
+program.exe : main.cpp sudoku.cpp threadSudoku.cpp
 	mpic++ main.cpp -o program.exe -std=c++11 -pthread -g
 
 run:
